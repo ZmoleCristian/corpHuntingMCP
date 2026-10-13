@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/lawkeeper-edit.py\"",
+            "timeout": 35,
+            "statusMessage": "lawkeeper judging the edit"
+          }
+        ]
+      }
+    ]
+  }
+}

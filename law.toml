@@ -1,0 +1,42 @@
+# The law (lawkeeper) for corpHuntingMCP. No exceptions, no disabled rules.
+# Enforced by the PostToolUse hook on every .rs edit under src/.
+
+max_loc = 800
+max_fn_loc = 80
+
+[truth]
+sanctum = "config.rs"
+env_files = ["config.rs", "main.rs"]
+trace_symbols = ["tracing::warn", "tracing::error", "tracing::info", "tracing::debug"]
+
+[deputies]
+attrs = [
+  "unused_must_use",
+  "for_loops_over_fallibles",
+  "dead_code",
+  "unused_variables",
+  "unused_assignments",
+]
+
+[error]
+guard_types = ["MutexGuard", "RwLockReadGuard", "RwLockWriteGuard"]
+
+[layers]
+error = []
+config = []
+place = ["model"]
+text = []
+model = ["error"]
+handle = ["model", "error"]
+filter = ["model", "error", "place"]
+http = ["error", "config"]
+tenants = ["model"]
+cache = ["model"]
+ats = ["error", "config", "model", "place", "text", "http", "tenants", "filter", "handle", "cache"]
+mcp = ["error", "config", "model", "handle", "filter", "tenants", "ats", "cache"]
+main = ["error", "config", "model", "mcp"]
+
+[rules]
+disabled = []
+
+[exempt]
